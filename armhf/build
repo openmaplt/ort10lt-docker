@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+docker build --tag openmap/rpi-raspbian-erlang:latest -f Dockerfile-erlang . && \
+docker build --tag openmap/rpi-raspbian-riak:latest -f Dockerfile-riak . && \
+docker build --tag openmap/riak:armhf-latest -f Dockerfile ..

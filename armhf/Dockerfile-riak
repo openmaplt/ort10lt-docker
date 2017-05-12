@@ -1,0 +1,22 @@
+FROM openmap/rpi-raspbian-erlang
+
+RUN wget -q http://s3.amazonaws.com/downloads.basho.com/riak/2.2/2.2.3/riak-2.2.3.tar.gz
+RUN tar zxf riak-2.2.3.tar.gz
+
+WORKDIR riak-2.2.3
+RUN make locked-deps
+
+# disable 32-bit incompatible perf counter
+COPY patch/perf_count.cc /riak-2.2.3/deps/eleveldb/c_src/leveldb/util/perf_count.cc
+
+RUN make rel
+RUN mv rel/riak /usr/local/
+RUN ln -s /usr/local/riak/log /var/log/riak && \
+    ln -s /usr/local/riak/etc /etc/riak && \
+    rm /etc/riak/riak.conf
+
+ADD start.sh /bin/
+
+WORKDIR /
+RUN rm -rf /riak-2.2.3 /riak-2.2.3.tar.gz /var/tmp/* /tmp/*
+

@@ -1,0 +1,18 @@
+FROM resin/rpi-raspbian
+
+RUN apt-get update -qy && apt-get upgrade -qy
+RUN apt-get install -q build-essential autoconf libncurses5-dev openssl libssl-dev libpam0g-dev fop xsltproc unixodbc-dev git wget
+
+## from http://docs.basho.com/riak/kv/2.2.3/setup/installing/source/erlang/#installing-on-debian-ubuntu
+RUN wget -q http://s3.amazonaws.com/downloads.basho.com/erlang/otp_src_R16B02-basho10.tar.gz
+RUN tar zxf otp_src_R16B02-basho10.tar.gz
+WORKDIR /OTP_R16B02_basho10
+RUN ./otp_build autoconf && ./configure && make install
+
+## cleanup
+WORKDIR /
+RUN rm -rf /otp_src_R16B02-basho10.tar.gz /OTP_R16B02_basho10
+
+RUN apt-get clean && apt-get autoclean && apt-get autoremove
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
