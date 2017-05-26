@@ -1,0 +1,84 @@
+## Where to emit the default log messages (typically at 'info'
+## severity):
+## off: disabled
+## file: the file specified by log.console.file
+## console: to standard output (seen when using `riak attach-direct`)
+## both: log.console.file and standard out.
+## 
+## Default: file
+## 
+## Acceptable values:
+##   - one of: off, file, console, both
+log.console = off
+
+## When set to 'on', enables log output to syslog.
+## 
+## Default: off
+## 
+## Acceptable values:
+##   - on or off
+log.syslog = on
+
+## Sets the number of threads in async thread pool, valid range
+## is 0-1024. If thread support is available, the default is 64.
+## More information at: http://erlang.org/doc/man/erl.html
+## 
+## Default: 64
+## 
+## Acceptable values:
+##   - an integer
+erlang.async_threads = 16
+
+## listener.http.<name> is an IP address and TCP port that the Riak
+## HTTP interface will bind.
+## 
+## Default: 127.0.0.1:8098
+## 
+## Acceptable values:
+##   - an IP/port pair, e.g. 127.0.0.1:10011
+listener.http.internal = 0.0.0.0:8098
+
+## listener.protobuf.<name> is an IP address and TCP port that the Riak
+## Protocol Buffers interface will bind.
+## 
+## Default: 127.0.0.1:8087
+## 
+## Acceptable values:
+##   - an IP/port pair, e.g. 127.0.0.1:10011
+listener.protobuf.internal = 0.0.0.0:8087
+
+## How Riak will repair out-of-sync keys. Some features require
+## this to be set to 'active', including search.
+## * active: out-of-sync keys will be repaired in the background
+## * passive: out-of-sync keys are only repaired on read
+## * active-debug: like active, but outputs verbose debugging
+## information
+## 
+## Default: active
+## 
+## Acceptable values:
+##   - one of: active, passive, active-debug
+anti_entropy = passive
+
+## Reading or writing objects bigger than this size will write a
+## warning in the logs.
+## 
+## Default: 5MB
+## 
+## Acceptable values:
+##   - a byte size with units, e.g. 10GB
+object.size.warning_threshold = 1MB
+
+## Writing an object bigger than this will send a failure to the
+## client.
+## 
+## Default: 50MB
+## 
+## Acceptable values:
+##   - a byte size with units, e.g. 10GB
+object.size.maximum = 1MB
+
+## Port range for inter-Erlang node communication
+erlang.distribution.port_range.minimum = 7000
+erlang.distribution.port_range.maximum = 7999
+
